@@ -121,6 +121,18 @@ void makeShape() {
 
 void makeStl() {
   file.println("solid thing");
+  
+  for(int i=0; i!=s.getVertexCount(); i+=3){
+    file.println("facet normal 0 0 0");
+    file.println("outer loop");
+    file.println("vertex " + s.getVertex(i).x + ' ' + s.getVertex(i).y + ' ' + s.getVertex(i).z);
+    file.println("vertex " + s.getVertex(i+1).x + ' ' + s.getVertex(i+1).y + ' ' + s.getVertex(i+1).z);
+    file.println("vertex " + s.getVertex(i+2).x + ' ' + s.getVertex(i+2).y + ' ' + s.getVertex(i+2).z);
+    file.println("endloop");
+    file.println("endfacet");
+  }
+  
+  /*
   //bottom
   file.println("facet normal 0 0 0");
   file.println("outer loop");
@@ -224,6 +236,7 @@ void makeStl() {
       file.println("endfacet");
     }
   }
+  /**/
   file.println("endsolid");
   file.flush();
   file.close();
