@@ -17,4 +17,8 @@ I've done some tests with a picture of me, so far these are the results:
 
 <img src="Images/Test1.1.jpg" Alt="Test1.1" width=300> <img src="Images/Test1.0.jpg" Alt="Test1.0" width=300>
 
-The reason part of the image is missing is because I had to scale the model *way* down. Right now the program makes a huge model (I had to use an ASCII to binary converter to get it to load), so when you scale it down part of the model gets to thin to print. Of course you can fix this by scaling it up in the z-axis.
+The reason part of the image is missing is because I had to scale the model *way* down. Right now the program makes a huge model (I had to use an ASCII to binary converter to get it to load), so when you scale it down part of the model gets to thin to print. Of course you can fix this by scaling it up in the z-axis, so that's what I did for the second test.
+
+<img scr="Images/Test2.0.jpg" Alt="Test2.0" width=300> <img scr="Images/Test2.1.jpg" Alt="Test2.1" width=300>
+
+This looks better I think, but with the backlight it would work better if the z-axis was inverted.
