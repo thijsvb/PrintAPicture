@@ -30,23 +30,24 @@ void draw() {
 void mousePressed() {
   if (mouseButton == LEFT && res < img.width && res < img.height) {
     ++res;
-    
+
     makeShape();
   } else if (mouseButton == RIGHT && res > 0) {
     --res;
-    
+
     makeShape();
   }
 }
 
-void keyPressed(){
-  if(key == 's' || key == 'S'){
+void keyPressed() {
+  if (key == 's' || key == 'S') {
     makeStl();
   }
 }
 
 void makeShape() {
-    s = createShape();
+  s = createShape();
+  z = new float[(img.width/res)+1][(img.height/res)+1];
 
   for (int x=0; x<img.width-img.width%res; x+=res) {
     for (int y=0; y<img.height-img.height%res; y+=res) {
@@ -121,8 +122,8 @@ void makeShape() {
 
 void makeStl() {
   file.println("solid thing");
-  
-  for(int i=0; i!=s.getVertexCount(); i+=3){
+
+  for (int i=0; i!=s.getVertexCount(); i+=3) {
     file.println("facet normal 0 0 0");
     file.println("outer loop");
     file.println("vertex " + s.getVertex(i).x + ' ' + s.getVertex(i).y + ' ' + s.getVertex(i).z);
@@ -131,7 +132,7 @@ void makeStl() {
     file.println("endloop");
     file.println("endfacet");
   }
-  
+
   file.println("endsolid");
   file.flush();
   file.close();
