@@ -9,6 +9,7 @@ void setup() {
   size(600, 600, P3D);
   stroke(0);
   fill(128);
+  textAlign(CENTER,CENTER);
 
   img = loadImage("input.jpg");
   z = new float[(img.width/res)+1][(img.height/res)+1];
@@ -30,7 +31,32 @@ void draw() {
   g.endDraw();
   image(g,0,0);
   
-  
+  pushStyle();
+  fill(192, 128);
+  noStroke();
+  rect(10,10,100,300,15);
+  stroke(255);
+  fill(255);
+  for(int y=40; y!=310; y+=30){
+    line(10,y,110,y);
+  }
+  line(60,70,60,100);
+  line(60,160,60,190);
+  line(60,220,60,310);
+  text("res:", 60, 25);
+  text(res + " pixels/vertex", 60, 55);
+  text('+', 35, 85); text('-', 85, 85);
+  text("max z-height:", 60, 115);
+  text("z", 60, 145);
+  text("+", 35, 175); text('-', 85, 175);
+  text("inverse z", 60, 205);
+  text("H", 35, 235); text("R", 85,235);
+  text("S", 35, 265); text("G", 85, 265);
+  text("B", 35, 295); text("B", 85, 295);
+  noStroke();
+  fill(255,128);
+  rect(10,280,50,30,0,0,0,15);
+  popStyle();
 }
 
 void mousePressed() {
