@@ -17,14 +17,20 @@ void setup() {
   makeShape();
 }
 
-void draw() {      
-  background(0);
-  translate(width/2, height/2);
-  rotateX(map(mouseY, 0, height, PI, -PI));
-  rotateY(map(mouseX, 0, width, -PI, PI));
-  scale(f, f);
-  translate(-img.width/2, -img.height/2);
-  shape(s);
+void draw() {  
+  PGraphics g = createGraphics(width,height,P3D);
+  g.beginDraw();
+  g.background(0);
+  g.translate(width/2, height/2);
+  g.rotateX(map(mouseY, 0, height, PI, -PI));
+  g.rotateY(map(mouseX, 0, width, -PI, PI));
+  g.scale(f, f);
+  g.translate(-img.width/2, -img.height/2);
+  g.shape(s);
+  g.endDraw();
+  image(g,0,0);
+  
+  
 }
 
 void mousePressed() {
