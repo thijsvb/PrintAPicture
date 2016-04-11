@@ -5,8 +5,11 @@
 * Download the program and extract the it
 * Put a JPG picture in the program folder `PrintAPicture-master/PrintAPicture` and name it `input.jpg`
 * Run it in [Processing](http://processing.org)
-* Decrease or increase the resolution with the left and right mouse buttons
-* Save the STL file with the 's' key
+* Decrease or increase the resolution with the resolution `+` and `-` buttons
+* Change the maximum z-height with the max z-height `+` and `-` buttons
+* Inverse the z-axis with the `inverse z` button
+* Save the STL file with the `save` button
+* Other buttons are still a work in progress, they shouldn't do anything
 * Print the thing.stl file!
 
 The TestImage program makes the image that is the default `input.jpg`, it looks like this:
