@@ -11,7 +11,7 @@
 
 The TestImage program makes the image that is the default `input.jpg`, it looks like this:
 
-<img src="TestImage/input.jpg" Alt="TestImage" width=300>
+<img src="TestImage/input.jpg" Alt="TestImage" width=300> <img src="Images/Test2.0.jpg" Alt="Printed TestImage" width=300>
 
 I've done some tests with a picture of me, so far these are the results:
 
