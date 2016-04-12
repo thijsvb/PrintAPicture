@@ -1,11 +1,11 @@
 /*
 
-PrintAPicture
-(c) Thijs van Beers, 2016
-GNU GPL 3
-https://github.com/thijsvb/PrintAPicture
-
-*/
+ PrintAPicture
+ (c) Thijs van Beers, 2016
+ GNU GPL 3
+ https://github.com/thijsvb/PrintAPicture
+ 
+ */
 
 PImage img;                  //image to turn in to a stl file
 PShape s;                    //visual render of what will become the stl file
@@ -82,7 +82,31 @@ void draw() {
   text("save", 60, 475);
   noStroke();
   fill(255, 128);
-  rect(10, 280, 50, 30);
+  switch(var) {
+  case 0:
+    rect(10, 220, 50, 30);
+    break;
+
+  case 1:
+    rect(10, 250, 50, 30);
+    break;
+
+  case 2:
+    rect(10, 280, 50, 30);
+    break;
+
+  case 3:
+    rect(60, 220, 50, 30);
+    break;
+
+  case 4:
+    rect(60, 250, 50, 30);
+    break;
+
+  case 5:
+    rect(60, 280, 50, 30);
+    break;
+  }
   if (inverted) {
     rect(10, 190, 100, 30);
   }
@@ -120,6 +144,26 @@ void mousePressed() {
       inverted = !inverted;
       makeShape();
     }
+    //variable
+    else if (mouseX >= 10 && mouseX <= 60 && mouseY >= 220 && mouseY <= 250) {
+      var = 0;
+      makeShape();
+    } else if (mouseX >= 60 && mouseX <= 110 && mouseY >= 220 && mouseY <= 250) {
+      var = 3;
+      makeShape();
+    } else if (mouseX >= 10 && mouseX <= 60 && mouseY >= 250 && mouseY <= 280) {
+      var = 1;
+      makeShape();
+    } else if (mouseX >= 60 && mouseX <= 110 && mouseY >= 250 && mouseY <= 280) {
+      var = 4;
+      makeShape();
+    } else if (mouseX >= 10 && mouseX <= 60 && mouseY >= 280 && mouseY <= 310) {
+      var = 2;
+      makeShape();
+    } else if (mouseX >= 60 && mouseX <= 110 && mouseY >= 280 && mouseY <= 310) {
+      var = 5;
+      makeShape();
+    } 
     //scale
     else if (mouseX >= 10 && mouseX <= 60 && mouseY >= 370 && mouseY <= 400 && scale < 1.95) {
       scale += 0.05;
@@ -158,30 +202,34 @@ void makeShape() {
   for (int x=0; x<img.width-img.width%res; x+=res) {
     for (int y=0; y<img.height-img.height%res; y+=res) {
       color pixel = img.pixels[ y*img.width + x ];
-      float value = 0;
-      switch(var){                                             //Use the chosen variable
-        case 0:
+      float value;
+      switch(var) {                                             //Use the chosen variable
+      case 0:
         value = hue(pixel);
         break;
-        
-        case 1:
+
+      case 1:
         value = saturation(pixel);
         break;
-        
-        case 2:
+
+      case 2:
         value = brightness(pixel);
         break;
-        
-        case 3:
+
+      case 3:
         value = red(pixel);
         break;
-        
-        case 4:
+
+      case 4:
         value = green(pixel);
         break;
-        
-        case 5:
+
+      case 5:
         value = blue(pixel);
+        break;
+
+      default:
+        value = 0;
         break;
       }      
       z[x/res][y/res] = map( value, 0, 255, a, b );            //Set the z height for every point
