@@ -1,3 +1,12 @@
+/*
+
+PrintAPicture
+(c) Thijs van Beers, 2016
+GNU GPL 3
+https://github.com/thijsvb/PrintAPicture
+
+*/
+
 PImage img;                  //image to turn in to a stl file
 PShape s;                    //visual render of what will become the stl file
 PrintWriter file;            //stl file to write to
