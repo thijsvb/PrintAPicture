@@ -12,7 +12,6 @@
 * Scale the model up or down with the scale `+` and `-` buttons
 * Rotate the model to take a better look with the right mouse button
 * Save the STL file with the `save` button
-* Other buttons are still a work in progress, they shouldn't do anything
 * Print the `thing.stl` file!
 
 The TestImage program makes the image that is the default `input.jpg`, it looks like this:
