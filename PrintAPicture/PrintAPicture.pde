@@ -11,7 +11,7 @@ PImage img;                  //image to turn in to a stl file
 PShape s;                    //visual render of what will become the stl file
 PrintWriter file;            //stl file to write to
 int res = 10;                //resolution in pixels/vertex
-int val = 2;                 //variable to use: 0 for hue, 1 for saturation, 2 for brightness, 3 for red, 4 for green, 5 for blue
+int var = 2;                 //variable to use: 0 for hue, 1 for saturation, 2 for brightness, 3 for red, 4 for green, 5 for blue
 float scale = 1.00;          //scale factor
 float max = 11;              //maximum z-height
 boolean inverted = false;    //invert for the z-axis
@@ -158,7 +158,7 @@ void makeShape() {
   for (int x=0; x<img.width-img.width%res; x+=res) {
     for (int y=0; y<img.height-img.height%res; y+=res) {
       color pixel = img.pixels[ y*img.width + x ];
-      float value;
+      float value = 0;
       switch(var){                                             //Use the chosen variable
         case 0:
         value = hue(pixel);
