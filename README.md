@@ -8,9 +8,12 @@
 * Decrease or increase the resolution with the resolution `+` and `-` buttons
 * Change the maximum z-height with the max z-height `+` and `-` buttons
 * Inverse the z-axis with the `inverse z` button
+* Change the variable used by clicking one of the variable buttons (you can choose hue, saturation, brightness, red, green or blue)
+* Scale the model up or down with the scale `+` and `-` buttons
+* Rotate the model to take a better look with the right mouse button
 * Save the STL file with the `save` button
 * Other buttons are still a work in progress, they shouldn't do anything
-* Print the thing.stl file!
+* Print the `thing.stl` file!
 
 The TestImage program makes the image that is the default `input.jpg`, it looks like this:
 
