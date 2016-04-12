@@ -1,11 +1,14 @@
-PImage img;
-PShape s;
-PrintWriter file;
-int res = 10;
-float max = 11;
-boolean inverted = false;
-float[][] z;
-float f;
+PImage img;                  //image to turn in to a stl file
+PShape s;                    //visual render of what will become the stl file
+PrintWriter file;            //stl file to write to
+int res = 10;                //resolution in pixels/vertex
+int val = 2;                 //variable to use: 0 for hue, 1 for saturation, 2 for brightness, 3 for red, 4 for green, 5 for blue
+float scale = 1.00;          //scale factor
+float max = 11;              //maximum z-height
+boolean inverted = false;    //invert for the z-axis
+float[][] z;                 //z height of all the points
+float f;                     //factor to scale the render (so it fits on the screen)
+float rotX, rotY;            //rotation of the model
 
 void setup() {
   size(600, 600, P3D);
@@ -13,30 +16,30 @@ void setup() {
   PFont font = createFont("Arial Bold", 12);
   textFont(font);
 
-  img = loadImage("input.jpg");
-  z = new float[(img.width/res)+1][(img.height/res)+1];
-  file = createWriter("thing.stl");
-
   makeShape();
 }
 
 void draw() {  
-  PGraphics g = createGraphics(width, height, P3D);
+  PGraphics g = createGraphics(width, height, P3D);    //Putting the 3D render in a graphic is the best way I know right now to overlay a GUI layer
   g.beginDraw();
   g.background(0);
   g.translate(width/2, height/2);
-  g.rotateX(map(mouseY, 0, height, PI, -PI));
-  g.rotateY(map(mouseX, 0, width, -PI, PI));
+  if (mousePressed && mouseButton == RIGHT) {          //Rotate the model when the right mouse button is pressed
+    rotX = map(mouseY, 0, height, PI, -PI);
+    rotY = map(mouseX, 0, width, -PI, PI);
+  }
+  g.rotateX(rotX);
+  g.rotateY(rotY);
   g.scale(f, f);
-  g.translate(-img.width/2, -img.height/2);
+  g.translate(-img.width/2, -img.height/2);            //All this rotating and translating and scaling is to make the model fit on the screen, be centred and rotated
   g.shape(s);
   g.endDraw();
-  image(g, 0, 0);
+  image(g, 0, 0);                                      //Draw the model
 
-  pushStyle();
+  pushStyle();                                         //Start the GUI layer, draw all the buttons, text and latching highlights
   fill(192, 128);
   noStroke();
-  rect(10, 10, 100, 450, 15);
+  rect(10, 10, 100, 480, 15);
   stroke(255);
   fill(255);
   for (int y=40; y!=460; y+=30) {
@@ -62,23 +65,24 @@ void draw() {
   text("B", 35, 295); 
   text("B", 85, 295);
   text("scale:", 60, 325);
-  text(1, 60, 355);
+  text(nf(scale, 1, 2), 60, 355);
   text("+", 35, 385); 
   text('-', 85, 385);
-  text("ASCII STL", 60, 415);
-  text("save", 60, 445);
+  text(int(img.width) +"x"+ int(img.height) +"mm", 60, 415);
+  text("ASCII STL", 60, 445);
+  text("save", 60, 475);
   noStroke();
   fill(255, 128);
   rect(10, 280, 50, 30);
   if (inverted) {
     rect(10, 190, 100, 30);
   }
-  rect(10, 400, 100, 30);
+  rect(10, 430, 100, 30);
   popStyle();
 }
 
 void mousePressed() {
-  if (mouseButton == LEFT) {
+  if (mouseButton == LEFT) {      //Check what button is pressed
     pushStyle();
     noStroke();
     fill(255, 128);
@@ -107,9 +111,19 @@ void mousePressed() {
       inverted = !inverted;
       makeShape();
     }
+    //scale
+    else if (mouseX >= 10 && mouseX <= 60 && mouseY >= 370 && mouseY <= 400 && scale < 1.95) {
+      scale += 0.05;
+      rect(10, 370, 50, 30);
+      makeShape();
+    } else if (mouseX >= 60 && mouseX <= 110 && mouseY >= 370 && mouseY <= 400 && scale > 0.05) {
+      scale -= 0.05;
+      rect(60, 370, 50, 30);
+      makeShape();
+    } 
     //save
-    else if (mouseX >= 10 && mouseX <= 110 && mouseY >= 430 && mouseY <= 460){
-      rect(10, 430, 100, 30, 0, 0, 15, 15);
+    else if (mouseX >= 10 && mouseX <= 110 && mouseY >= 460 && mouseY <= 490) {
+      rect(10, 460, 100, 30, 0, 0, 15, 15);
       makeStl();
     }    
     popStyle();
@@ -119,10 +133,12 @@ void mousePressed() {
 void makeShape() {
   stroke(0);
   fill(128);
+  img = loadImage("input.jpg");                                //Reload the image everytime makeShape is called to prevent scaling an already scaled image
+  img.resize(int(scale*img.width), int(scale*img.height));
   s = createShape();
   z = new float[(img.width/res)+1][(img.height/res)+1];
   float a, b;
-  if (inverted) {
+  if (inverted) {                                              //Swap the scale if the z-axis has to be inverted
     a = max;
     b = 1;
   } else {
@@ -132,17 +148,44 @@ void makeShape() {
 
   for (int x=0; x<img.width-img.width%res; x+=res) {
     for (int y=0; y<img.height-img.height%res; y+=res) {
-      z[x/res][y/res] = map( brightness( img.pixels[ y*img.width + x ] ), 0, 255, a, b );
+      color pixel = img.pixels[ y*img.width + x ];
+      float value;
+      switch(var){                                             //Use the chosen variable
+        case 0:
+        value = hue(pixel);
+        break;
+        
+        case 1:
+        value = saturation(pixel);
+        break;
+        
+        case 2:
+        value = brightness(pixel);
+        break;
+        
+        case 3:
+        value = red(pixel);
+        break;
+        
+        case 4:
+        value = green(pixel);
+        break;
+        
+        case 5:
+        value = blue(pixel);
+        break;
+      }      
+      z[x/res][y/res] = map( value, 0, 255, a, b );            //Set the z height for every point
     }
   }
 
-  if (img.width >= img.height) {
+  if (img.width >= img.height) {                               //Set the scale factor for the model
     f = (float(width)-100)/float(img.width);
   } else if (img.height > img.width) {
     f = (float(height)-100)/float(img.height);
   }
 
-  s.beginShape(TRIANGLES);
+  s.beginShape(TRIANGLES);                                     //Begin drawing the shape using triangles, because that's easy to transfer to a STL
   //bottom
   s.vertex(0, 0, 0);
   s.vertex(img.width-img.width%res, 0, 0);
@@ -202,9 +245,11 @@ void makeShape() {
 }
 
 void makeStl() {
+  file = createWriter("thing.stl");                    //Make the STL file
+
   file.println("solid thing");
 
-  for (int i=0; i!=s.getVertexCount(); i+=3) {
+  for (int i=0; i!=s.getVertexCount(); i+=3) {         //Write all the triangles using verteces from the shape
     file.println("facet normal 0 0 0");
     file.println("outer loop");
     file.println("vertex " + s.getVertex(i).x + ' ' + s.getVertex(i).y + ' ' + s.getVertex(i).z);
