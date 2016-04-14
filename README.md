@@ -2,7 +2,7 @@
 ##This program will create a STL file from your picture!
 
 **How to use:**
-* Download the program and extract the it
+* Download the program and extract it
 * Put a JPG picture in the program folder `PrintAPicture-master/PrintAPicture` and name it `input.jpg`
 * Run it in [Processing](http://processing.org)
 * Decrease or increase the resolution with the resolution `+` and `-` buttons
